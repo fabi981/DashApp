@@ -1,0 +1,14 @@
+dash
+flask
+dash-bootstrap-components
+tkinter
+opencv-python
+pillow
+transformers
+sounddevice
+soundfile
+numpy
+matplotlib
+PyQt6
+librosa
+plotly
