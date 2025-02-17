@@ -459,7 +459,7 @@ class YoutubeKommentarApp:
 # Flask Server initialisieren
 server = Flask(__name__)
 
-# Verzeichnis mit den Bildern
+# Verzeichnis mit den Bildern-
 ASSETS_DIR = "./pages_5"
 
 # Alle Dateien im Verzeichnis
@@ -1258,14 +1258,8 @@ def debugging_print():
         time.sleep(1)
 
 if __name__ == '__main__':
-    # Dash-App normal starten
-    #logging_thread = threading.Thread(target=start_queue_logging, daemon=True)
-    #logging_thread.start()
-    #debug_process = multiprocessing.Process(target=debugging_print)
-    #debug_process.start()
-    #debug_process.join()
-    app.run_server(debug=True)
-    #debug_process.terminate()
+    app.run_server(debug=True, host='0.0.0.0', port=8050)
+
 
 
 #hier auch... zu Testzwecken, redundant
