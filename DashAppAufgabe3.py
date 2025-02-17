@@ -8,7 +8,6 @@ import os
 from flask import Flask
 import uuid
 import time
-import socketio
 
 #Imports fuer die Zusatzfenster
 import tkinter as tk
