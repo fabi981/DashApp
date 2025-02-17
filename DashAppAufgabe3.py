@@ -8,6 +8,7 @@ import os
 from flask import Flask
 import uuid
 import time
+import socketio
 
 #Imports fuer die Zusatzfenster
 import tkinter as tk
@@ -37,7 +38,6 @@ from queue import Queue  # >>> Aenderung
 import plotly.graph_objs as go
 
 current_page = 1
-
 
 
 
@@ -452,6 +452,25 @@ class YoutubeKommentarApp:
     def open_youtube(self):
         webbrowser.open("https://www.youtube.com/results?search_query=")
 
+#Wrapper fuer Button auf Seite 21
+def huggingface_seite_oeffnen():
+    #webbrowser.open("https://huggingface.co/models", new=1, autoraise=True)
+    dcc.Link("Oeffne Hugging Face", href="https://huggingface.co/models", target="_blank")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ######Main-Abschnitt der Web-App
@@ -732,9 +751,7 @@ AUDIO_VISUALISATIONS = {
     }
 }
 
-#Wrapper fuer Button auf Seite 21
-def huggingface_seite_oeffnen():
-    webbrowser.open("https://huggingface.co/models", new=1, autoraise=True)
+
 
 
 BUTTONS = {
@@ -868,7 +885,12 @@ app.layout = html.Div([
     html.Div(id='page-content', style={'marginTop': '50px', 'width': '100%', 'height': 'calc(100vh - 50px)'})
 ])
 
+'''# WebSocket Client direkt in der Main-Datei
+sio = socketio.Client()
 
+# Verbindung zum WebSocket-Server (ersetze mit deiner Dash-Server-IP)
+SERVER_URL = "http://0.0.0.0:8050"  # Falls Dash auf einem anderen Rechner läuft, IP anpassen
+sio.connect(SERVER_URL)'''
 
 '''
 Hier in diesem Abschnitt sind alle Callbacks definiert, die Daten an die eigentliche Dash-App senden und Daten empfangen.
