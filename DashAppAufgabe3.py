@@ -734,7 +734,7 @@ AUDIO_VISUALISATIONS = {
 
 #Wrapper fuer Button auf Seite 21
 def huggingface_seite_oeffnen():
-    webbrowser.open("https://huggingface.co/models")
+    webbrowser.open("https://huggingface.co/models", new=1, autoraise=True)
 
 
 BUTTONS = {
