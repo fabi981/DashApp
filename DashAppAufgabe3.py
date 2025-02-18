@@ -35,14 +35,28 @@ import multiprocessing
 import plotly.graph_objs as go  # >>> Aenderung
 from queue import Queue  # >>> Aenderung
 import plotly.graph_objs as go
+import socketio
 
 current_page = 1
 
 
-
-
+'''
+#Hier befinden sich alle Klassen, die ueber den Client aufgerufen werden muessen
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+'''
 #ist fuer Seite 94
-'''class MaskUnmasker:
+class MaskUnmasker:
     @staticmethod
     def unmask_sentence(text, model_name="bert-base-cased"):
         """Ersetzt das [MASK]-Token im gegebenen Text durch das wahrscheinlichste Wort."""
@@ -57,7 +71,7 @@ input_text = "I feel very [MASK] today."
 output_text = unmasker.unmask_sentence(input_text)
 
 ("Eingabe:", input_text)
-print("Unmaskierter Satz:", output_text)''' 
+print("Unmaskierter Satz:", output_text)
 
 
 ########Klassen und Methoden zum 
@@ -457,20 +471,62 @@ def huggingface_seite_oeffnen():
     dcc.Link("Oeffne Hugging Face", href="https://huggingface.co/models", target="_blank")
 
 
+'''
+#Hier befindet sich der Client API, weil die Dash und Flask API scheinbar nicht in der Lage sind,
+#!!! clientseitige Befehle auszufuehren.
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+'''
+
+class ClientAPI:
+    """ API fuer PyWebView, um externe Fenster clientseitig zu oeffnen """
+
+    def open_tkinter(self):
+        print("[Client] Oeffne Zeichenfenster...")
+        threading.Thread(target=Zeichenfenster.open_drawing_window_in_process, daemon=True).start()
+
+    def open_blanc_fenster(self):
+        print("[Client] Oeffne BlancFenster...")
+        threading.Thread(target=BlancFenster.open_drawing_window_in_process, daemon=True).start()
+
+    def open_opencv_camera(self):
+        print("[Client] Starte OpenCV-Kamera...")
+        threading.Thread(target=CameraApp.open_camera_window_in_process, daemon=True).start()
+
+    def start_audio_recording(self):
+        print("[Client] Starte Audio-Aufnahme...")
+        threading.Thread(target=AudioApp.start_recording, daemon=True).start()
+
+    def stop_audio_recording(self):
+        print("[Client] Stoppe Audio-Aufnahme...")
+        threading.Thread(target=AudioApp.stop_recording, daemon=True).start()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+'''
+#Hier sind Buttons, Checkboxen, Textfelder und zugehoerige Mappings und so weiter definiert
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+'''
 
 ######Main-Abschnitt der Web-App
 
@@ -785,7 +841,21 @@ BUTTONS = {
     ],
 }
 
-
+'''
+#Hier ist das Dash-Layout definiert, inklusive Callbacks an die Dash-App, und was sonst noch so erzwungenermassen
+#!!!dazugehoert.
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+'''
 
 # Initialisiere die Dash-App
 app = Dash(__name__, server=server, assets_folder=ASSETS_DIR, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])##LETZER PARAMETER WURDE UEBERARBEITET
@@ -888,7 +958,7 @@ app.layout = html.Div([
 sio = socketio.Client()
 
 # Verbindung zum WebSocket-Server (ersetze mit deiner Dash-Server-IP)
-SERVER_URL = "http://0.0.0.0:8050"  # Falls Dash auf einem anderen Rechner läuft, IP anpassen
+SERVER_URL = "http://0.0.0.0:8050"  # Falls Dash auf einem anderen Rechner laeuft, IP anpassen
 sio.connect(SERVER_URL)'''
 
 '''
@@ -950,10 +1020,6 @@ def get_text(text_id):
         return "Kein Text vorhanden"
     
     return stored_data.get(text_id, "")
-
-
-
-
 
 # Callback, um den Graphen bei neuen Audio-Daten zu aktualisieren
 @app.callback(
@@ -1074,8 +1140,22 @@ visualization_active = False
 app.layout.children.append(dcc.Store(id='visualization-store', data=False))
 
 
-
-'''Hier ist alles festgelegt, was das Erstellen der einzelseiten betrifft. 
+'''
+#Die create-pages methode generiert die ganzen Buttons und so weiter dynamisch anhand der Parameter,
+#!!! die ich oben in den Textfeld-Button-Listen festgelegt habe.
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+'''
+'''Hier ist alles festgelegt, was das Erstellen der Einzelseiten betrifft. 
 Die Buttons/Textfelder/Ankreuzkaestchen werden in dieser methode eingefuegt.
 Weiterhin wird das Updaten des Audio-Graphen hierdrin durchgefuehrt bzw. der Div dafuer geschaffen.
 '''
@@ -1263,7 +1343,21 @@ def create_page(page_num):
         )
     ])
 
-
+'''
+#Paar Debug-Hilfsmethoden
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+'''
 #redundante Methode... nur zu Testzwecken, ob die Audiodaten aus der AudioApp gezogen werden koennen
 def start_queue_logging():
     """ Laeuft in einem separaten Thread und ruft jede Sekunde print_queue_data auf """
@@ -1278,6 +1372,23 @@ def debugging_print():
         print("hallo", flush=True)
         time.sleep(1)
 
+
+
+'''
+#Hier Start von Dash und von der Client-API
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+#!!!
+'''
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8050)
 
